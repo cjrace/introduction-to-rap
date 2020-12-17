@@ -98,9 +98,7 @@ It's also an acronym
 
 Same analysis, same data, same result - is the absolute minimum we aim for
 
-Users trust in our quality - code of practice
-
-We need to have quality processes
+Code of practice - we need to have quality processes
 
 --
 
@@ -153,7 +151,7 @@ Data often comes from a variety of sources, however the very start of the pipeli
 
 --
 
-2. Files are produced using reproducible and auditable code, with no manual steps
+2. Files are produced using reproducible code, with no manual steps
 
 ???
 
@@ -419,17 +417,16 @@ reducing the likelihood of human errors is paramount, RAP is built around this
 
 --
 
-- GSS Best Practice guidance
+
+- Ongoing OSR review
 
 ???
 
-Due out next year, I stumbled across a draft a couple of weeks ago and it's strikingly similar to our own guidance website we already have
+We've fed into this
 
-If anything it sets a far higher bar than we are doing in terms of technical skill
+Due out next year
 
-Our best pratice is similar to their minimum expectations, so we have work to do!
-
----
+--
 
 Is a cross-government movement 
 
@@ -451,13 +448,15 @@ This is our opportunity to solidify our position as a front-runner in Official S
 
 --
 
-- Ongoing OSR review
+- GSS Best Practice guidance
 
 ???
 
-We've fed into this
+Due out next year, I stumbled across a draft a couple of weeks ago and it's strikingly similar to our own guidance website we already have
 
-Due out next year
+If anything it sets a far higher bar than we are doing in terms of technical skill
+
+Our best practice is similar to their minimum expectations, so we have work to do!
 
 ---
 
@@ -483,6 +482,14 @@ It brings us numerous benefits to our processes:
 
 - Is a great opportunity for learning and development
 
+???
+
+Skills learnt and used will be core to our profession for decades to come
+
+Is very much an opportunity for us to grab, and should not be seen as a burden
+
+It is our job to be the best we can be at this
+
 ---
 layout: true
 
@@ -495,6 +502,8 @@ layout: true
 - Complete first response on the [self assessment tool](https://rsconnect/rsc/publication-self-assessment/)
 
 ???
+
+This will involve you reviewing your proccesses as they stand
 
 I'll demo this later
 
@@ -521,10 +530,6 @@ Short videos to get started with R will happen soon, though there are resources 
 --
 
 - Target for teams to be operating at 'great practice' by the end of 2021
-
-???
-
-Again, I'll come back to this shortly, though before I go into the self-assessment app and guidance I'll quickly recap
 
 
 ---
@@ -595,7 +600,7 @@ class: center, middle
 
 ---
 
-https://cjrace.github.io/20201217-introduction-to-rap/index.html
+https://cjrace.github.io/introduction-to-rap/index.html
 
 Made with [xaringan](https://bookdown.org/yihui/rmarkdown/xaringan.html) package in R
 
