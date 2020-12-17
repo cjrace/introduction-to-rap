@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Implementing RAP</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Cam Race" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Implementing RAP
+## Statistics publication in DfE
+### Cam Race
+### 2020/09/14
+
+---
+
+
+
+
+
+
+# What I'll cover
+
+Background
+- implementing RAP across stats production in DfE
+
+
+Related work
+- documentation
+- dissemination platform
+- open data standards
+
+
+Focused example of embedding RAP within the production process
+- automated screening of data files
+- tool sharing some benefits of RAP without needing the technical knowledge
+
+
+Next steps and reflections
+
+???
+
+Want to update others on what we're doing
+
+highlight things we've come across incase any of it is useful to others
+
+to invite feedback/questions on what we've done and plan to do
+
+---
+
+# Who are we
+
+Statistics Development Team - Data Insight and Statistics Division - DfE
+
+Central team who:
+
+- guide ~100 analysts producing DfE's publications
+
+- are overseeing the development of a new dissemination platform
+
+- set and encourage best practices in production processes
+
+
+Team is made up of myself and Laura Selby
+
+
+---
+layout: true
+
+# What is RAP
+
+---
+
+--
+
+Don't worry, I'm not going to explain you what RAP is
+
+--
+
+'What is it'? is always the first question asked of us
+
+Answering it clearly has been key to encouraging RAP across the analysts
+
+--
+
+To answer this question, we defined the broad scope of it
+
+.center[![Arrows defining the scope of DfE RAP plan](examples/RAP-Scope-Arrow.png)]
+
+???
+
+This arrow shows the areas that all publication teams may have involvement in
+
+Teams vary on the amount of this they cover, so it was important to set a clear scope for where this would apply to
+
+Best value
+
+- Where we can control
+
+- RAP would bring benefits (i.e. not the writing of the publications (yet!))
+
+---
+
+That 'statistics production' scope broken down into objects and process
+
+.center[![Overview of DfE RAP plan](examples/RAP-Process-Overview.png)]
+
+???
+
+It's less important the detail and more that we were defining it so clearly and breaking it into easily target-able objects
+
+---
+
+What this means in practice
+
+.center[![Hexagons breaking down RAP to real world examples](examples/RAP-in-practice.png)]
+
+???
+
+We also took that a step further with the following diagram for breaking down what using RAP for that scope means in practice for teams
+
+Highlight a couple of the hexagons, and then how this was all designed around making it easier to understand for the analysts
+
+---
+layout: false
+
+# Explore Education Statistics
+
+A big part of this has been utilising the new dissemination platform as a catalyst
+
+
+Provided an ideal opportunity to review all aspects of our work
+
+
+Our data files had to be standardised to run the platform off of the aggregated data, giving us a consistent end point to the pipeline I showed earlier
+
+
+Brief demo of [Explore Education Statistics](https://explore-education-statistics.service.gov.uk/) to give context
+
+???
+
+Go to find stats, EY release, then first data block and table tool
+
+
+---
+
+# Guidance
+
+A key part of RAP is documentation, and implementing RAP has been no different
+
+
+We found that we had an ever increasing amount of documents laying around
+
+
+Issues with finding things quickly, making sure it was the latest version, and for everyone else to do so too
+
+
+So we made an [rmarkdown website](https://rsconnect/rsc/stats-production-guidance/) where all of our guidance is stored in a single, maintained place
+
+--
+
+Note that this is not publicly accessible, it is limited to DfE only as it runs off of our rsconnect servers
+
+---
+layout: true
+
+# Data standards
+
+---
+
+Developed alongside Explore Education Statistics
+
+Built around principles of tidy data
+
+Essentially:
+
+- Every row refers to a single observational unit
+
+- Every column refers to a single variable 
+
+- Specific standards around time and geography so the that platform can handle them
+
+- Standards around best practices such as avoiding spaces in variable names
+
+---
+
+Benefits of these standards:
+
+- Machine readable
+
+- 3* open data standards
+
+- Consistent across totally different areas for end users
+
+- Consistency of end target - easier to write code that can be generalised across all of our files
+
+---
+
+Show two example files
+
+These are included in the repo for reference
+
+---
+
+Now we have standards, how can we check against them?
+
+--
+
+All files are checked before being uploaded to the platform
+
+I started off for a couple of months manually checking for:
+
+- Are the right columns present
+- Do they label things in line with the standards
+- Is the structure appropriate / is each column a single variable
+- Are there spaces in variable names
+
+--
+
+and this list kept growing...
+
+--
+
+and the number of files kept growing...
+
+---
+layout: false
+
+# Data standards
+
+Easy to see the motivations for automating this screening of files
+
+- Save time
+
+- Improve accuracy
+
+- Increase reliability
+
+- Remove single-person dependency
+
+- Make it easier for analysts to do this themselves
+
+
+???
+
+Across the 60 publications we have at least 500 open data files
+
+It was unrealistic for anyone to check these manually
+
+I'm going to talk through some of the iterations we've had of the tool
+
+and how/why it's evolved based on feedback
+
+---
+
+# First iteration
+
+[Single script](https://github.com/dfe-analytical-services/ees-data-screener/blob/8d4ebdbe8507741cc58e19ac6ff8566939b9ea0d/checking_script.R) that I could use myself to automate the checking part of what I was doing
+
+- Basic checks in an Rscript I had locally
+
+- Output in console
+
+- Run by myself, and manually fed back to teams
+
+- Basic coverage, though fast, accurate, and reliable for the tests present
+
+???
+
+A number of things to improve - tests could fail early, which goes against the best practice in automated testing where you want maximum coverage, so that you can get as much useful information as possible, and minimise the need to rerun
+
+---
+
+# Second iteration
+
+Created an [Rmarkdown report](examples/iteration1_report.html) to send to analysts - [GitHub repo](https://github.com/dfe-analytical-services/ees-data-screener/tree/70c37e6d83b2a6c83141949daf55d2ffed95e62b)
+
+- Version controlled using git keeping the development process clear
+
+- In a public github repo to make it accessible
+
+- Saved me time manually checking through results in the console
+
+- Gave an audit trail of the screening for future reference
+
+
+---
+
+# Third iteration
+
+Similar structure, with more tests, summary stats and improved usability
+
+- More options for selecting files
+
+- Included a console only option for quick screening without a report for larger files
+
+- Making it easier for analysts to see when there were issues flagged
+
+- First time starting to think about the length of time the code takes to run as file sizes increased
+
+- Made it easier for analysts to run this project themselves by using renv for package management
+
+
+Give demonstration of using the tool locally - [GitHub repo](https://github.com/dfe-analytical-services/ees-data-screener)
+
+---
+layout: true
+
+# Setup video
+
+---
+
+I found that I was spending hours of my time going through with analysts setting this up, repeating the same things over and over
+
+So I recorded a 10 minute youtube video instead
+
+???
+
+Draw the comparison with code and copy/pasting lines as opposed to writing a reusable function
+
+---
+
+Walked through everything, including:
+- The basics of getting the correct R and RStudio versions from the DfE software centre
+- How to download/clone from GitHub
+- How to unzip a compressed file
+- How to open an R Project and run a script
+- Then how to use the specific project I'd made
+
+---
+
+Saved myself sitting beside each of the analysts at their desks to do this
+
+
+Effective in reducing repetitive queries to me, freeing my time
+
+
+Empowered analysts to do this themselves and use R
+
+
+Proved extremely popular
+
+
+???
+
+I'm also fairly sure that this alone dramatically increased the number of publication teams who had a version of R/RStudio on their machines in our department
+
+---
+layout: false
+
+# renv
+
+As great as renv is, there were still issues with it, it wasn't working for every person who wanted to run it
+
+I ended up scrapping it in favour of [a temporary solution](https://github.com/dfe-analytical-services/ees-data-screener) to tide me over until the next iteration came along
+
+
+- .Rprofile script automatically sets the library to match working directory of the project
+
+- library folder with the packages needed in it saved in the project directory
+
+???
+
+Not a sustainable solution, and despite this I still recommend renv, though this was a short term thing that worked, and worked more reliably than renv was doing at the time
+
+Go to repo and show rprofile and library scripts
+
+---
+layout: true
+
+# Current iteration 
+
+---
+
+Converted the code to make an [R Shiny app](https://rsconnect/rsc/dfe-published-data-qa/)
+
+- Back to renv
+
+- Removes R and Rstudio barrier
+
+- Reduces dependency issues to server only
+
+- Single version of the truth
+
+- Increased speed by refactoring code
+
+- Increased test coverage 
+
+- Automated tests on the app using testthat and shinytest that run locally
+
+???
+
+using profvis to profile code, highlight slowest parts and refactored accordingly
+
+130mb file, previously had 36 tests, taking over 4 minutes
+
+Now have 60 tests and running in around 13 seconds
+
+now 60 checks and counting, with preliminary stages to allow for maximum coverage while minimising confusing cross-errors where possible
+
+go to repo and show rprofile script for handy functions when developing for tests and formatting code
+
+---
+
+Feedback has been fantastic, overwhelmingly positive
+
+Easy to use
+
+Far quicker to screen files
+
+Far quicker to use within the analysts process
+
+Reduces human error significantly
+
+I've learnt an incredible amount by doing it
+
+---
+layout: true
+
+# Next steps
+
+---
+
+### This week
+
+Integrate automated tests into DevOps deployment pipeline - have struggled so far, though looking at options
+
+---
+
+### This month
+
+Expand app to automate the production of generalised QA reports if a file passes
+
+- Explore the data with plots, summary stats and more
+
+- Trying to lower the barrier to the benefits of automating common tasks
+
+- Though alongside this is a push for teams to build their own specific QA with guidance and examples
+
+---
+
+### Generally
+
+Continue to build on documentation, and features/code to help analysts make the most of RAP
+
+
+Working with teams towards the 'single production script' ideal
+
+---
+layout: true
+
+# Recap
+
+---
+
+Remember this?
+
+.center[![Overview of DfE RAP plan](examples/RAP-Process-Overview.png)]
+
+???
+
+Highlight the screener and how this example is just one part of the scope for where we're implementing RAP
+
+---
+
+Have a clearly defined plan
+
+
+First principles and what does it mean in practice?
+
+
+Utilising a variety of methods to get information across
+
+
+Important not to neglect the basics
+
+
+Tool for analysts being able to quickly feel benefits of RAP principles without technical knowledge
+
+
+Making RAP work with the analysts as well as the analysts working with RAP
+
+---
+
+layout: false
+
+class: center, middle
+
+# Thanks!
+
+https://cjrace.github.io/20200914-rap-champions-presentation/index.html
+
+Made with [xarigan](https://bookdown.org/yihui/rmarkdown/xaringan.html) rmarkdown extension
+
+Any questions?
+
+Contact: [cameron.race@education.gov.uk](mailto:cameron.race@education.gov.uk)
+
+???
+
+Thank you all for listening
+
+Slides are available at that link there using GitHub pages
+
+This was made with xarigan package, which is an extension for rmarkdown, and I'd really recommend you check it out, the amount of flexibility is incredible and the keyboard shortcuts are really nice when presenting
+
+I think there's a few minutes now if anyone has any questions, though there's also my email there if you have questions or suggestions afterwards
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
