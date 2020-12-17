@@ -600,8 +600,6 @@ class: center, middle
 
 ---
 
-https://cjrace.github.io/introduction-to-rap/index.html
-
 Made with [xaringan](https://bookdown.org/yihui/rmarkdown/xaringan.html) package in R
 
 Any questions?
@@ -614,7 +612,7 @@ https://rsconnect/rsc/stats-production-guidance/
 
 ???
 
-Slides are available at that link, using GitHub pages
+Slides will be available afterwards online
 
 This was made the with R, using the xaringan package, which is an extension for rmarkdown, and I'd really recommend you check it out, as the amount of flexibility is incredible and the keyboard shortcuts are really nice when presenting
 
